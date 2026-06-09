@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 const form = useForm();
 
 defineProps({
-    projects: Array,
+    tickets: Array,
 });
 
 const goBack = () => {
@@ -25,11 +25,11 @@ const destroy = (id) => {
         cancelButtonText: "Cancelar",
     }).then((result) => {
         if (result.isConfirmed) {
-            form.delete(route("projects.destroy", id), {
+            form.delete(route("tickets.destroy", id), {
                 onSuccess: () => {
                     Swal.fire(
                         "Excluído!",
-                        "O projeto foi removido com sucesso.",
+                        "O ticket foi removido com sucesso.",
                         "success",
                     );
                 },
@@ -40,12 +40,12 @@ const destroy = (id) => {
 </script>
 
 <template>
-    <Head title="Projetos" />
+    <Head title="Tickets" />
 
     <AuthenticatedLayout>
         <template #header>
             <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Projetos
+                Tickets
             </h2>
         </template>
 
@@ -69,7 +69,7 @@ const destroy = (id) => {
                 <!-- Header -->
                 <div class="mb-6 flex justify-between items-center">
                     <h3 class="text-2xl font-bold text-gray-800">
-                        Lista de Projetos
+                        Lista de Tickets
                     </h3>
 
                     <div class="flex items-center gap-3">
@@ -83,11 +83,11 @@ const destroy = (id) => {
                         </button>
 
                         <Link
-                            :href="route('projects.create')"
+                            :href="route('tickets.create')"
                             class="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
                         >
                             <i class="bi bi-plus-lg"></i>
-                            Novo Projeto
+                            Novo Ticket
                         </Link>
                     </div>
                 </div>
@@ -95,8 +95,8 @@ const destroy = (id) => {
                 <!-- Table -->
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <div v-if="projects.length === 0">
-                            Nenhum projeto cadastrado.
+                        <div v-if="tickets.length === 0">
+                            Nenhum ticket cadastrado.
                         </div>
 
                         <table
@@ -106,53 +106,75 @@ const destroy = (id) => {
                             <thead>
                                 <tr>
                                     <th class="px-4 py-3 text-left">ID</th>
-                                    <th class="px-4 py-3 text-left">Nome</th>
+                                    <th class="px-4 py-3 text-left">Título</th>
+                                    <th class="px-4 py-3 text-left">Projeto</th>
                                     <th class="px-4 py-3 text-left">Empresa</th>
-                                    <th class="px-4 py-3 text-left">
-                                        Descrição
-                                    </th>
+                                    <th class="px-4 py-3 text-left">Status</th>
                                     <th class="px-4 py-3 text-left">Ações</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 <tr
-                                    v-for="project in projects"
-                                    :key="project.id"
+                                    v-for="ticket in tickets"
+                                    :key="ticket.id"
                                     class="border-t"
                                 >
                                     <td class="px-4 py-3">
-                                        {{ project.id }}
+                                        {{ ticket.id }}
                                     </td>
 
                                     <td class="px-4 py-3">
-                                        {{ project.name }}
+                                        {{ ticket.title ?? ticket.name }}
+                                    </td>
+
+                                    <td class="px-4 py-3">
+                                        <span
+                                            class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-700 font-medium"
+                                        >
+                                            {{ ticket.project?.name ?? "-" }}
+                                        </span>
                                     </td>
 
                                     <td class="px-4 py-3">
                                         <span
                                             class="px-2 py-1 text-xs rounded bg-purple-100 text-purple-700 font-medium"
                                         >
-                                            {{ project.company?.name ?? "-" }}
+                                            {{
+                                                ticket.project?.company?.name ??
+                                                "-"
+                                            }}
                                         </span>
                                     </td>
 
-                                    <td class="px-4 py-3 max-w-xs">
+                                    <td class="px-4 py-3">
                                         <span
-                                            class="block truncate"
-                                            :title="project.description"
+                                            class="px-2 py-1 text-xs rounded font-medium"
+                                            :class="{
+                                                'bg-green-100 text-green-700':
+                                                    ticket.status === 'open',
+                                                'bg-yellow-100 text-yellow-700':
+                                                    ticket.status ===
+                                                    'in_progress',
+                                                'bg-red-100 text-red-700':
+                                                    ticket.status === 'closed',
+                                            }"
                                         >
-                                            {{ project.description ?? "-" }}
+                                            {{
+                                                ticket.status === "open"
+                                                    ? "Aberto"
+                                                    : ticket.status ===
+                                                        "in_progress"
+                                                      ? "Em andamento"
+                                                      : "Fechado"
+                                            }}
                                         </span>
                                     </td>
 
                                     <td class="px-4 py-3 flex gap-2">
                                         <Link
                                             :href="
-                                                route(
-                                                    'projects.edit',
-                                                    project.id,
-                                                )
+                                                route('tickets.edit', ticket.id)
                                             "
                                             class="inline-flex items-center gap-2 rounded bg-yellow-500 px-3 py-1 text-white hover:bg-yellow-600 transition"
                                         >
@@ -161,7 +183,7 @@ const destroy = (id) => {
                                         </Link>
 
                                         <button
-                                            @click="destroy(project.id)"
+                                            @click="destroy(ticket.id)"
                                             class="inline-flex items-center gap-2 rounded bg-red-600 px-3 py-1 text-white hover:bg-red-700 transition"
                                         >
                                             <i class="bi bi-trash"></i>
