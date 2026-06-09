@@ -3,12 +3,16 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, useForm } from "@inertiajs/vue3";
 import { router } from "@inertiajs/vue3";
 
+const props = defineProps({
+    company: Object,
+});
+
 const form = useForm({
-    name: "",
+    name: props.company.name,
 });
 
 const submit = () => {
-    form.post(route("companies.store"));
+    form.put(route("companies.update", props.company.id));
 };
 
 const goBack = () => {
@@ -17,41 +21,30 @@ const goBack = () => {
 </script>
 
 <template>
-    <Head title="Nova Empresa" />
+    <Head title="Editar Empresa" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                Nova Empresa
-            </h2>
+            <h2 class="text-xl font-semibold">Editar Empresa</h2>
         </template>
 
         <div class="py-12">
-            <div class="mx-auto max-w-3xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+            <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <form @submit.prevent="submit">
-                            <div class="mb-6">
+                            <div>
                                 <label
-                                    for="name"
                                     class="block text-sm font-medium text-gray-700 mb-2"
                                 >
                                     Nome da Empresa
                                 </label>
 
                                 <input
-                                    id="name"
                                     v-model="form.name"
                                     type="text"
-                                    class="w-full rounded-md border-gray-300 shadow-sm"
+                                    class="w-full border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                                 />
-
-                                <div
-                                    v-if="form.errors.name"
-                                    class="mt-2 text-sm text-red-600"
-                                >
-                                    {{ form.errors.name }}
-                                </div>
                             </div>
 
                             <div class="mt-6 flex justify-end gap-3">
@@ -70,9 +63,14 @@ const goBack = () => {
                                     <button
                                         type="submit"
                                         class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        :disabled="form.processing"
                                     >
-                                        <i class="bi bi-save"></i>
-                                        Salvar
+                                        <i class="bi bi-check-lg"></i>
+
+                                        <span v-if="!form.processing"
+                                            >Atualizar</span
+                                        >
+                                        <span v-else>Salvando...</span>
                                     </button>
                                 </div>
                             </div>

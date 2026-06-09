@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\CompanyController;
 
+use App\Models\Company;
+use App\Models\Project;
+use App\Models\Ticket;
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -16,7 +20,11 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', [
+        'companiesCount' => Company::count(),
+        'projectsCount' => Project::count(),
+        'ticketsCount' => Ticket::count(),
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

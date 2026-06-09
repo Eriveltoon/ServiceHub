@@ -1,6 +1,13 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
+
+defineProps({
+    companiesCount: Number,
+    projectsCount: Number,
+    ticketsCount: Number,
+});
 </script>
 
 <template>
@@ -8,9 +15,9 @@ import { Head } from "@inertiajs/vue3";
 
     <AuthenticatedLayout>
         <template #header>
-            <!-- <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            <h2 class="text-xl font-semibold leading-tight text-gray-800">
                 Dashboard
-            </h2> -->
+            </h2>
         </template>
 
         <div class="py-12">
@@ -24,25 +31,54 @@ import { Head } from "@inertiajs/vue3";
                 </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-white rounded-lg shadow p-6">
+                    <!-- Empresas -->
+                    <div
+                        @click="router.visit(route('companies.index'))"
+                        class="bg-white rounded-lg shadow p-6 cursor-pointer hover:shadow-md hover:scale-[1.02] transition"
+                    >
                         <h4 class="text-lg font-semibold text-gray-700">
                             Empresas
                         </h4>
-                        <p class="text-3xl font-bold text-indigo-600 mt-3">0</p>
+
+                        <p class="text-3xl font-bold text-indigo-600 mt-3">
+                            {{ companiesCount }}
+                        </p>
+
+                        <p class="text-sm text-gray-500 mt-2">
+                            Acessar empresas
+                        </p>
                     </div>
 
-                    <div class="bg-white rounded-lg shadow p-6">
+                    <!-- Projetos -->
+                    <div
+                        @click="router.visit(route('projects.index'))"
+                        class="bg-white rounded-lg shadow p-6 cursor-pointer hover:shadow-md hover:scale-[1.02] transition"
+                    >
                         <h4 class="text-lg font-semibold text-gray-700">
                             Projetos
                         </h4>
+
                         <p class="text-3xl font-bold text-indigo-600 mt-3">0</p>
+
+                        <p class="text-sm text-gray-500 mt-2">
+                            Acessar projetos
+                        </p>
                     </div>
 
-                    <div class="bg-white rounded-lg shadow p-6">
+                    <!-- Tickets -->
+                    <div
+                        @click="router.visit(route('tickets.index'))"
+                        class="bg-white rounded-lg shadow p-6 cursor-pointer hover:shadow-md hover:scale-[1.02] transition"
+                    >
                         <h4 class="text-lg font-semibold text-gray-700">
                             Tickets
                         </h4>
+
                         <p class="text-3xl font-bold text-indigo-600 mt-3">0</p>
+
+                        <p class="text-sm text-gray-500 mt-2">
+                            Acessar tickets
+                        </p>
                     </div>
                 </div>
             </div>
