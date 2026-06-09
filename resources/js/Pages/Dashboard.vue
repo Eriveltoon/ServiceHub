@@ -58,7 +58,9 @@ defineProps({
                             Projetos
                         </h4>
 
-                        <p class="text-3xl font-bold text-indigo-600 mt-3">0</p>
+                        <p class="text-3xl font-bold text-indigo-600 mt-3">
+                            {{ projectsCount }}
+                        </p>
 
                         <p class="text-sm text-gray-500 mt-2">
                             Acessar projetos
