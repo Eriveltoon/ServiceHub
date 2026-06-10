@@ -11,14 +11,19 @@ use App\Models\Ticket;
 use App\Models\Project;
 use App\Models\Company;
 use App\Jobs\ProcessTicketJob;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class TicketController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $this->authorize('viewAny', Ticket::class);
+
         return Inertia::render('Tickets/Index', [
             'tickets' => Ticket::with(['project.company'])->get()
         ]);
@@ -29,6 +34,8 @@ class TicketController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Ticket::class);
+
         $projects = Project::orderBy('name')->select('id', 'name')->get();
 
         return Inertia::render('Tickets/Create', [
@@ -41,6 +48,8 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Ticket::class);
+
         $request->validate([
             'title' => ['required', 'string', 'max:100'],
             'description' => ['nullable', 'string'],
@@ -87,12 +96,16 @@ class TicketController extends Controller
      */
     public function show(string $id)
     {
+        $ticket = Ticket::with([
+            'project.company',
+            'detail',
+            'user',
+        ])->findOrFail($id);
+
+        $this->authorize('view', $ticket);
+
         return inertia('Tickets/Show', [
-            'ticket' => Ticket::with([
-                'project.company',
-                'detail',
-                'user',
-            ])->findOrFail($id)
+            'ticket' => $ticket
         ]);
     }
 
@@ -101,6 +114,8 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
+        $this->authorize('update', $ticket);
+
         return inertia('Tickets/Edit', [
             'ticket' => $ticket->load('project'),
             'projects' => Project::orderBy('name')->select('id', 'name')->get(),
@@ -112,6 +127,9 @@ class TicketController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $ticket = Ticket::findOrFail($id);
+
+        $this->authorize('update', $ticket);
 
         $request->validate([
             'title' => ['required', 'string', 'max:100'],
@@ -131,9 +149,6 @@ class TicketController extends Controller
                 'attachment_path.max' => 'O arquivo não pode ultrapassar 2MB.',
                 ]);
 
-        $ticket = Ticket::findOrFail($id);
-
-
 
         $ticketData = [
             'title' => $request->title,
@@ -142,28 +157,20 @@ class TicketController extends Controller
             'project_id' => $request->project_id,
             ];
 
-        // se tiver novo arquivo, substitui o anterior
         if ($request->hasFile('attachment_path')) {
-
-
-            // opcional: apagar antigo
             if ($ticket->attachment_path) {
                 Storage::delete($ticket->attachment_path);
             }
 
             $ticketData['attachment_path'] = $request->file('attachment_path')
                 ->store('tickets/attachments');
-
         }
 
         $ticket->update($ticketData);
 
-        // recarrega do banco (estado atualizado)
         $ticket->refresh();
 
-
         ProcessTicketJob::dispatch($ticket);
-        // ProcessTicketJob::dispatch($ticket->id);
 
         return redirect()
             ->route('tickets.index')
@@ -175,6 +182,8 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
+        $this->authorize('delete', $ticket);
+
         $ticket->delete();
 
         return redirect()->route('tickets.index');

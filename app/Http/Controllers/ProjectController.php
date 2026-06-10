@@ -5,14 +5,19 @@ use App\Models\Project;
 use App\Models\Company;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ProjectController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $this->authorize('viewAny', Project::class);
+
         return Inertia::render('Projects/Index', [
             'projects' => Project::with('company')->get()
         ]);
@@ -25,6 +30,8 @@ class ProjectController extends Controller
     {
         $companies = Company::orderBy('name')->select('id', 'name')->get();
 
+        $this->authorize('viewAny', Project::class);
+
         return Inertia::render('Projects/Create', [
             'companies' => $companies
         ]);
@@ -35,6 +42,8 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Project::class);
+
         $request->validate([
             'name' => ['required', 'string', 'max:50'],
             'company_id' => ['required', 'exists:companies,id'],
@@ -62,8 +71,12 @@ class ProjectController extends Controller
      */
     public function show(string $id)
     {
+        $project = Project::with('company')->findOrFail($id);
+
+        $this->authorize('view', $project);
+
         return inertia('Projects/Show', [
-            'project' => Project::with('company')->findOrFail($id)
+            'project' => $project
         ]);
     }
 
@@ -72,6 +85,8 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        $this->authorize('update', $project);
+
         return inertia('Projects/Edit', [
             'project' => $project->load('company'),
             'companies' => Company::orderBy('name')->select('id', 'name')->get()
@@ -83,6 +98,8 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
+        $this->authorize('update', $project);
+
         $request->validate([
             'name' => ['required', 'string', 'max:50'],
             'company_id' => ['required', 'exists:companies,id'],
@@ -110,6 +127,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        $this->authorize('delete', $project);
+
         $project->delete();
 
         return redirect()->route('projects.index');

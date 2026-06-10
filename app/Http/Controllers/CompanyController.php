@@ -3,16 +3,21 @@
 namespace App\Http\Controllers;
 use App\Models\Company;
 use Inertia\Inertia;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $this->authorize('viewAny', Company::class);
+
         return Inertia::render('Companies/Index', [
             'companies' => Company::all()
         ]);
@@ -23,6 +28,8 @@ class CompanyController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Company::class);
+
         return Inertia::render('Companies/Create');
     }
 
@@ -31,6 +38,8 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Company::class);
+
         $request->validate([
             'name' => ['required', 'string', 'max:20'],
         ], [
@@ -51,8 +60,12 @@ class CompanyController extends Controller
      */
     public function show(string $id)
     {
+        $company = Company::findOrFail($id);
+
+        $this->authorize('view', $company);
+
         return inertia('Companies/Show', [
-            'company' => Company::findOrFail($id)
+            'company' => $company
         ]);
     }
 
@@ -61,6 +74,8 @@ class CompanyController extends Controller
      */
     public function edit(Company $company)
     {
+        $this->authorize('update', $company);
+
         return inertia('Companies/Edit', [
             'company' => $company
         ]);
@@ -71,6 +86,8 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company)
     {
+        $this->authorize('update', $company);
+
         $request->validate([
             'name' => ['required', 'string', 'max:20'],
         ], [
@@ -91,6 +108,8 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
+        $this->authorize('delete', $company);
+
         $company->delete();
 
         return redirect()

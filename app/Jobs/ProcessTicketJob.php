@@ -7,7 +7,7 @@ use Illuminate\Foundation\Queue\Queueable;
 
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
+use App\Notifications\TicketProcessedNotification;
 
 class ProcessTicketJob implements ShouldQueue
 {
@@ -28,9 +28,6 @@ class ProcessTicketJob implements ShouldQueue
      */
     public function handle(): void
     {
-        // Log::info('ENTROU NO HANDLE', [
-        //     'ticket_id' => $this->ticket->id
-        // ]);
         if (!$this->ticket->attachment_path) {
             return;
         }
@@ -39,17 +36,12 @@ class ProcessTicketJob implements ShouldQueue
 
         $data = json_decode($content, true);
 
-        // fallback se não for JSON
         if (json_last_error() !== JSON_ERROR_NONE) {
             $data = [
                 'raw' => $content
             ];
         }
 
-        // $this->ticket->detail()->create([
-        //     'technical_data' => $data
-        // ]);
-        // dd($this->ticket->detail);
         if ($this->ticket->detail) {
             $this->ticket->detail->update([
                 'technical_data' => $data
@@ -61,5 +53,11 @@ class ProcessTicketJob implements ShouldQueue
             ]);
 
         }
+
+        $this->ticket->refresh();
+
+        $this->ticket->user->notify(
+            new TicketProcessedNotification($this->ticket)
+        );
     }
 }
