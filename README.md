@@ -84,3 +84,14 @@ No terminal bash, dentro da pasta do projeto, rodar o comando
 ```bash
 docker compose exec app grep -n "To:" storage/logs/laravel.log -A 20
 ```
+
+## 7. Testes com PHPUnit
+
+No terminal bash, dentro da pasta do projeto, rodar o comando
+
+```bash
+docker compose exec app php artisan test --filter CompanyTest
+docker compose exec app php artisan test --filter ProjectTest
+docker compose exec app php artisan test --filter TicketTest
+docker compose exec app php artisan test --filter TicketJobTest
+```
