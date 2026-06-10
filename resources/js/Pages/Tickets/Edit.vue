@@ -12,10 +12,19 @@ const form = useForm({
     description: props.ticket.description,
     status: props.ticket.status,
     project_id: props.ticket.project_id,
+    attachment_path: null,
 });
 
+// const submit = () => {
+//     form.put(route("tickets.update", props.ticket.id));
+// };
 const submit = () => {
-    form.put(route("tickets.update", props.ticket.id));
+    form.transform((data) => ({
+        ...data,
+        _method: "put",
+    })).post(route("tickets.update", props.ticket.id), {
+        forceFormData: true,
+    });
 };
 
 const goBack = () => {

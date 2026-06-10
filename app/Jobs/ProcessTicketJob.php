@@ -7,6 +7,7 @@ use Illuminate\Foundation\Queue\Queueable;
 
 use App\Models\Ticket;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class ProcessTicketJob implements ShouldQueue
 {
@@ -27,6 +28,9 @@ class ProcessTicketJob implements ShouldQueue
      */
     public function handle(): void
     {
+        // Log::info('ENTROU NO HANDLE', [
+        //     'ticket_id' => $this->ticket->id
+        // ]);
         if (!$this->ticket->attachment_path) {
             return;
         }
@@ -42,8 +46,20 @@ class ProcessTicketJob implements ShouldQueue
             ];
         }
 
-        $this->ticket->detail()->create([
-            'technical_data' => $data
-        ]);
+        // $this->ticket->detail()->create([
+        //     'technical_data' => $data
+        // ]);
+        // dd($this->ticket->detail);
+        if ($this->ticket->detail) {
+            $this->ticket->detail->update([
+                'technical_data' => $data
+            ]);
+
+        } else {
+            $this->ticket->detail()->create([
+                'technical_data' => $data
+            ]);
+
+        }
     }
 }
