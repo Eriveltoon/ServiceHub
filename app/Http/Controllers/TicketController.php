@@ -88,7 +88,11 @@ class TicketController extends Controller
     public function show(string $id)
     {
         return inertia('Tickets/Show', [
-            'ticket' => Ticket::with('project')->findOrFail($id)
+            'ticket' => Ticket::with([
+                'project.company',
+                'detail',
+                'user',
+            ])->findOrFail($id)
         ]);
     }
 

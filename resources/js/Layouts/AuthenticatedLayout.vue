@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from "vue";
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
@@ -13,22 +12,23 @@ const showingNavigationDropdown = ref(false);
 <template>
     <div>
         <div class="min-h-screen bg-gray-100">
-            <nav class="border-b border-gray-100 bg-white">
-                <!-- Primary Navigation Menu -->
+            <!-- NAVBAR -->
+            <nav class="border-b border-indigo-800 bg-indigo-700">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex h-16 justify-between">
+                        <!-- ESQUERDA -->
                         <div class="flex">
-                            <!-- Logo -->
+                            <!-- LOGO -->
                             <div class="flex shrink-0 items-center">
                                 <Link
                                     :href="route('dashboard')"
-                                    class="text-2xl font-bold text-indigo-600"
+                                    class="text-2xl font-bold text-white"
                                 >
                                     ServiceHub
                                 </Link>
                             </div>
 
-                            <!-- Navigation Links -->
+                            <!-- MENU -->
                             <div
                                 class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
                             >
@@ -36,6 +36,7 @@ const showingNavigationDropdown = ref(false);
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
                                 >
+                                    <i class="bi bi-speedometer2 me-2"></i>
                                     Dashboard
                                 </NavLink>
 
@@ -43,6 +44,7 @@ const showingNavigationDropdown = ref(false);
                                     :href="route('companies.index')"
                                     :active="route().current('companies.*')"
                                 >
+                                    <i class="bi bi-buildings me-2"></i>
                                     Empresas
                                 </NavLink>
 
@@ -50,6 +52,7 @@ const showingNavigationDropdown = ref(false);
                                     :href="route('projects.index')"
                                     :active="route().current('projects.*')"
                                 >
+                                    <i class="bi bi-kanban me-2"></i>
                                     Projetos
                                 </NavLink>
 
@@ -57,25 +60,30 @@ const showingNavigationDropdown = ref(false);
                                     :href="route('tickets.index')"
                                     :active="route().current('tickets.*')"
                                 >
+                                    <i class="bi bi-ticket-perforated me-2"></i>
                                     Tickets
                                 </NavLink>
                             </div>
                         </div>
 
+                        <!-- DIREITA -->
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
-                            <!-- Settings Dropdown -->
                             <div class="relative ms-3">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                                                class="inline-flex items-center gap-2 rounded-md border border-transparent px-3 py-2 text-sm font-medium text-white hover:text-green-100 focus:outline-none"
                                             >
+                                                <i
+                                                    class="bi bi-person-circle text-lg"
+                                                ></i>
+
                                                 {{ $page.props.auth.user.name }}
 
                                                 <svg
-                                                    class="-me-0.5 ms-2 h-4 w-4"
+                                                    class="h-4 w-4"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 20 20"
                                                     fill="currentColor"
@@ -94,18 +102,17 @@ const showingNavigationDropdown = ref(false);
                                         <DropdownLink
                                             :href="route('profile.edit')"
                                         >
-                                            <i
-                                                class="bi bi-person me-2 text-gray-900"
-                                            ></i>
+                                            <i class="bi bi-person me-2"></i>
                                             Perfil
                                         </DropdownLink>
+
                                         <DropdownLink
                                             :href="route('logout')"
                                             method="post"
                                             as="button"
                                         >
                                             <i
-                                                class="bi bi-box-arrow-right me-2 text-gray-700"
+                                                class="bi bi-box-arrow-right me-2"
                                             ></i>
                                             Sair
                                         </DropdownLink>
@@ -114,14 +121,14 @@ const showingNavigationDropdown = ref(false);
                             </div>
                         </div>
 
-                        <!-- Hamburger -->
+                        <!-- MOBILE -->
                         <div class="-me-2 flex items-center sm:hidden">
                             <button
                                 @click="
                                     showingNavigationDropdown =
                                         !showingNavigationDropdown
                                 "
-                                class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
+                                class="inline-flex items-center justify-center rounded-md p-2 text-gray-300 hover:bg-slate-700 hover:text-white"
                             >
                                 <svg
                                     class="h-6 w-6"
@@ -140,6 +147,7 @@ const showingNavigationDropdown = ref(false);
                                         stroke-width="2"
                                         d="M4 6h16M4 12h16M4 18h16"
                                     />
+
                                     <path
                                         :class="{
                                             hidden: !showingNavigationDropdown,
@@ -157,13 +165,13 @@ const showingNavigationDropdown = ref(false);
                     </div>
                 </div>
 
-                <!-- Responsive Navigation Menu -->
+                <!-- MENU MOBILE -->
                 <div
                     :class="{
                         block: showingNavigationDropdown,
                         hidden: !showingNavigationDropdown,
                     }"
-                    class="sm:hidden"
+                    class="sm:hidden bg-slate-900"
                 >
                     <div class="space-y-1 pb-3 pt-2">
                         <ResponsiveNavLink
@@ -179,43 +187,35 @@ const showingNavigationDropdown = ref(false);
                         >
                             Empresas
                         </ResponsiveNavLink>
-                    </div>
 
-                    <!-- Responsive Settings Options -->
-                    <div class="border-t border-gray-200 pb-1 pt-4">
-                        <div class="px-4">
-                            <div class="text-base font-medium text-gray-800">
-                                {{ $page.props.auth.user.name }}
-                            </div>
-                            <div class="text-sm font-medium text-gray-500">
-                                {{ $page.props.auth.user.email }}
-                            </div>
-                        </div>
+                        <ResponsiveNavLink
+                            :href="route('projects.index')"
+                            :active="route().current('projects.*')"
+                        >
+                            Projetos
+                        </ResponsiveNavLink>
 
-                        <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')">
-                                Perfil
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                :href="route('logout')"
-                                method="post"
-                                as="button"
-                            >
-                                Sair
-                            </ResponsiveNavLink>
-                        </div>
+                        <ResponsiveNavLink
+                            :href="route('tickets.index')"
+                            :active="route().current('tickets.*')"
+                        >
+                            Tickets
+                        </ResponsiveNavLink>
                     </div>
                 </div>
             </nav>
 
-            <!-- Page Heading -->
-            <header class="bg-white shadow" v-if="$slots.header">
+            <!-- HEADER -->
+            <header
+                class="bg-slate-50 border-b border-gray-200"
+                v-if="$slots.header"
+            >
                 <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>
 
-            <!-- Page Content -->
+            <!-- CONTEÚDO -->
             <main>
                 <slot />
             </main>

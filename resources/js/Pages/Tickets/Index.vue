@@ -93,7 +93,9 @@ const destroy = (id) => {
                 </div>
 
                 <!-- Table -->
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <div
+                    class="overflow-hidden bg-white shadow-lg border border-gray-200 rounded-xl"
+                >
                     <div class="p-6">
                         <div v-if="tickets.length === 0">
                             Nenhum ticket cadastrado.
@@ -103,14 +105,38 @@ const destroy = (id) => {
                             v-else
                             class="min-w-full divide-y divide-gray-200"
                         >
-                            <thead>
+                            <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="px-4 py-3 text-left">ID</th>
-                                    <th class="px-4 py-3 text-left">Título</th>
-                                    <th class="px-4 py-3 text-left">Projeto</th>
-                                    <th class="px-4 py-3 text-left">Empresa</th>
-                                    <th class="px-4 py-3 text-left">Status</th>
-                                    <th class="px-4 py-3 text-left">Ações</th>
+                                    <th
+                                        class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                    >
+                                        ID
+                                    </th>
+                                    <th
+                                        class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                    >
+                                        Título
+                                    </th>
+                                    <th
+                                        class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                    >
+                                        Projeto
+                                    </th>
+                                    <th
+                                        class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                    >
+                                        Empresa
+                                    </th>
+                                    <th
+                                        class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                    >
+                                        Status
+                                    </th>
+                                    <th
+                                        class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                    >
+                                        Ações
+                                    </th>
                                 </tr>
                             </thead>
 
@@ -118,17 +144,21 @@ const destroy = (id) => {
                                 <tr
                                     v-for="ticket in tickets"
                                     :key="ticket.id"
-                                    class="border-t"
+                                    class="border-t hover:bg-gray-200 transition"
                                 >
-                                    <td class="px-4 py-3">
-                                        {{ ticket.id }}
+                                    <td class="px-4 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700"
+                                        >
+                                            #{{ ticket.id }}
+                                        </span>
                                     </td>
 
-                                    <td class="px-4 py-3">
+                                    <td class="px-4 py-4">
                                         {{ ticket.title ?? ticket.name }}
                                     </td>
 
-                                    <td class="px-4 py-3">
+                                    <td class="px-4 py-4">
                                         <span
                                             class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-700 font-medium"
                                         >
@@ -136,7 +166,7 @@ const destroy = (id) => {
                                         </span>
                                     </td>
 
-                                    <td class="px-4 py-3">
+                                    <td class="px-4 py-4">
                                         <span
                                             class="px-2 py-1 text-xs rounded bg-purple-100 text-purple-700 font-medium"
                                         >
@@ -147,7 +177,7 @@ const destroy = (id) => {
                                         </span>
                                     </td>
 
-                                    <td class="px-4 py-3">
+                                    <td class="px-4 py-4">
                                         <span
                                             class="px-2 py-1 text-xs rounded font-medium"
                                             :class="{
@@ -171,7 +201,15 @@ const destroy = (id) => {
                                         </span>
                                     </td>
 
-                                    <td class="px-4 py-3 flex gap-2">
+                                    <td class="px-4 py-4 flex gap-2">
+                                        <Link
+                                            :href="
+                                                route('tickets.show', ticket.id)
+                                            "
+                                            class="inline-flex items-center gap-2 rounded bg-green-600 px-3 py-1 text-white hover:bg-green-800 transition"
+                                        >
+                                            <i class="bi bi-eye"></i>
+                                        </Link>
                                         <Link
                                             :href="
                                                 route('tickets.edit', ticket.id)
@@ -179,7 +217,6 @@ const destroy = (id) => {
                                             class="inline-flex items-center gap-2 rounded bg-yellow-500 px-3 py-1 text-white hover:bg-yellow-600 transition"
                                         >
                                             <i class="bi bi-pencil-square"></i>
-                                            Editar
                                         </Link>
 
                                         <button
@@ -187,7 +224,6 @@ const destroy = (id) => {
                                             class="inline-flex items-center gap-2 rounded bg-red-600 px-3 py-1 text-white hover:bg-red-700 transition"
                                         >
                                             <i class="bi bi-trash"></i>
-                                            Excluir
                                         </button>
                                     </td>
                                 </tr>

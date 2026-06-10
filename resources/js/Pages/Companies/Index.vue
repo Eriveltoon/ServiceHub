@@ -93,7 +93,10 @@ const destroy = (id) => {
                     </div>
                 </div>
 
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <!-- Table -->
+                <div
+                    class="overflow-hidden bg-white shadow-lg border border-gray-200 rounded-xl"
+                >
                     <div class="p-6">
                         <div v-if="companies.length === 0">
                             Nenhuma empresa cadastrada.
@@ -103,11 +106,25 @@ const destroy = (id) => {
                             v-else
                             class="min-w-full divide-y divide-gray-200"
                         >
-                            <thead>
+                            <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="px-4 py-3 text-left">ID</th>
-                                    <th class="px-4 py-3 text-left">Nome</th>
-                                    <th class="px-4 py-3 text-left">Ações</th>
+                                    <th
+                                        class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                    >
+                                        ID
+                                    </th>
+
+                                    <th
+                                        class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                    >
+                                        Nome
+                                    </th>
+
+                                    <th
+                                        class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                    >
+                                        Ações
+                                    </th>
                                 </tr>
                             </thead>
 
@@ -115,17 +132,23 @@ const destroy = (id) => {
                                 <tr
                                     v-for="company in companies"
                                     :key="company.id"
-                                    class="border-t"
+                                    class="border-t hover:bg-gray-200 transition"
                                 >
-                                    <td class="px-4 py-3">
-                                        {{ company.id }}
+                                    <td class="px-4 py-4">
+                                        <span
+                                            class="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700"
+                                        >
+                                            #{{ company.id }}
+                                        </span>
                                     </td>
 
-                                    <td class="px-4 py-3">
-                                        {{ company.name }}
+                                    <td class="px-4 py-4">
+                                        <span class="font-medium text-gray-800">
+                                            {{ company.name }}
+                                        </span>
                                     </td>
 
-                                    <td class="px-4 py-3 flex gap-2">
+                                    <td class="px-4 py-4 flex gap-2">
                                         <Link
                                             :href="
                                                 route(
@@ -136,7 +159,6 @@ const destroy = (id) => {
                                             class="inline-flex items-center gap-2 rounded bg-yellow-500 px-3 py-1 text-white hover:bg-yellow-600 transition"
                                         >
                                             <i class="bi bi-pencil-square"></i>
-                                            Editar
                                         </Link>
 
                                         <button
@@ -144,7 +166,6 @@ const destroy = (id) => {
                                             class="inline-flex items-center gap-2 rounded bg-red-600 px-3 py-1 text-white hover:bg-red-700 transition"
                                         >
                                             <i class="bi bi-trash"></i>
-                                            Excluir
                                         </button>
                                     </td>
                                 </tr>

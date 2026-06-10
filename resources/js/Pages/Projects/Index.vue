@@ -93,84 +93,119 @@ const destroy = (id) => {
                 </div>
 
                 <!-- Table -->
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                    <div class="p-6">
-                        <div v-if="projects.length === 0">
-                            Nenhum projeto cadastrado.
+                <div
+                    class="overflow-hidden bg-white shadow-lg border border-gray-200 rounded-xl"
+                >
+                    <!-- Table -->
+                    <div
+                        class="overflow-hidden bg-white shadow-lg border border-gray-200 rounded-xl"
+                    >
+                        <div class="p-6">
+                            <div v-if="projects.length === 0">
+                                Nenhum projeto cadastrado.
+                            </div>
+
+                            <table
+                                v-else
+                                class="min-w-full divide-y divide-gray-200"
+                            >
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th
+                                            class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                        >
+                                            ID
+                                        </th>
+
+                                        <th
+                                            class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                        >
+                                            Nome
+                                        </th>
+
+                                        <th
+                                            class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                        >
+                                            Empresa
+                                        </th>
+
+                                        <th
+                                            class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                        >
+                                            Descrição
+                                        </th>
+
+                                        <th
+                                            class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
+                                        >
+                                            Ações
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr
+                                        v-for="project in projects"
+                                        :key="project.id"
+                                        class="border-t hover:bg-gray-200 transition"
+                                    >
+                                        <td class="px-4 py-4">
+                                            <span
+                                                class="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700"
+                                            >
+                                                #{{ project.id }}
+                                            </span>
+                                        </td>
+
+                                        <td class="px-4 py-4">
+                                            {{ project.name }}
+                                        </td>
+
+                                        <td class="px-4 py-4">
+                                            <span
+                                                class="px-2 py-1 text-xs rounded bg-purple-100 text-purple-700 font-medium"
+                                            >
+                                                {{
+                                                    project.company?.name ?? "-"
+                                                }}
+                                            </span>
+                                        </td>
+
+                                        <td class="px-4 py-4 max-w-xs">
+                                            <span
+                                                class="block truncate"
+                                                :title="project.description"
+                                            >
+                                                {{ project.description ?? "-" }}
+                                            </span>
+                                        </td>
+
+                                        <td class="px-4 py-4 flex gap-2">
+                                            <Link
+                                                :href="
+                                                    route(
+                                                        'projects.edit',
+                                                        project.id,
+                                                    )
+                                                "
+                                                class="inline-flex items-center gap-2 rounded bg-yellow-500 px-3 py-1 text-white hover:bg-yellow-600 transition"
+                                            >
+                                                <i
+                                                    class="bi bi-pencil-square"
+                                                ></i>
+                                            </Link>
+
+                                            <button
+                                                @click="destroy(project.id)"
+                                                class="inline-flex items-center gap-2 rounded bg-red-600 px-3 py-1 text-white hover:bg-red-700 transition"
+                                            >
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-
-                        <table
-                            v-else
-                            class="min-w-full divide-y divide-gray-200"
-                        >
-                            <thead>
-                                <tr>
-                                    <th class="px-4 py-3 text-left">ID</th>
-                                    <th class="px-4 py-3 text-left">Nome</th>
-                                    <th class="px-4 py-3 text-left">Empresa</th>
-                                    <th class="px-4 py-3 text-left">
-                                        Descrição
-                                    </th>
-                                    <th class="px-4 py-3 text-left">Ações</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <tr
-                                    v-for="project in projects"
-                                    :key="project.id"
-                                    class="border-t"
-                                >
-                                    <td class="px-4 py-3">
-                                        {{ project.id }}
-                                    </td>
-
-                                    <td class="px-4 py-3">
-                                        {{ project.name }}
-                                    </td>
-
-                                    <td class="px-4 py-3">
-                                        <span
-                                            class="px-2 py-1 text-xs rounded bg-purple-100 text-purple-700 font-medium"
-                                        >
-                                            {{ project.company?.name ?? "-" }}
-                                        </span>
-                                    </td>
-
-                                    <td class="px-4 py-3 max-w-xs">
-                                        <span
-                                            class="block truncate"
-                                            :title="project.description"
-                                        >
-                                            {{ project.description ?? "-" }}
-                                        </span>
-                                    </td>
-
-                                    <td class="px-4 py-3 flex gap-2">
-                                        <Link
-                                            :href="
-                                                route(
-                                                    'projects.edit',
-                                                    project.id,
-                                                )
-                                            "
-                                            class="inline-flex items-center gap-2 rounded bg-yellow-500 px-3 py-1 text-white hover:bg-yellow-600 transition"
-                                        >
-                                            <i class="bi bi-pencil-square"></i>
-                                            Editar
-                                        </Link>
-
-                                        <button
-                                            @click="destroy(project.id)"
-                                            class="inline-flex items-center gap-2 rounded bg-red-600 px-3 py-1 text-white hover:bg-red-700 transition"
-                                        >
-                                            <i class="bi bi-trash"></i>
-                                            Excluir
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
