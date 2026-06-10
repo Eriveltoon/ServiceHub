@@ -42,8 +42,19 @@ const goBack = () => {
 
         <div class="py-12">
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white shadow-sm sm:rounded-lg">
+                <div
+                    class="overflow-hidden bg-white shadow-lg border border-gray-200 rounded-xl"
+                >
                     <div class="p-6">
+                        <div class="mb-8 border-b border-gray-200 pb-4">
+                            <h3 class="text-2xl font-bold text-gray-800">
+                                Edição de Ticket
+                            </h3>
+
+                            <p class="text-sm text-gray-500 mt-1">
+                                Atualize os dados do ticket conforme necessário.
+                            </p>
+                        </div>
                         <form @submit.prevent="submit">
                             <!-- Projeto -->
                             <div class="mb-6">
@@ -55,7 +66,7 @@ const goBack = () => {
 
                                 <select
                                     v-model="form.project_id"
-                                    class="w-full border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 text-gray-900"
+                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 >
                                     <option value="">
                                         Selecione um projeto
@@ -131,7 +142,7 @@ const goBack = () => {
 
                                 <input
                                     type="file"
-                                    class="w-full border-gray-300 rounded-lg p-2 text-gray-900"
+                                    class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm"
                                     @change="
                                         (e) =>
                                             (form.attachment_path =

@@ -41,13 +41,25 @@ const handleFileUpload = (e) => {
 
         <div class="py-12">
             <div class="mx-auto max-w-3xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <div
+                    class="overflow-hidden bg-white shadow-lg border border-gray-200 rounded-xl"
+                >
                     <div class="p-6">
+                        <div class="mb-8 border-b border-gray-200 pb-4">
+                            <h3 class="text-2xl font-bold text-gray-800">
+                                Cadastro de Ticket
+                            </h3>
+
+                            <p class="text-sm text-gray-500 mt-1">
+                                Preencha os dados abaixo para criar um novo
+                                ticket.
+                            </p>
+                        </div>
                         <form @submit.prevent="submit">
                             <!-- Projeto -->
                             <div class="mb-6">
                                 <label
-                                    class="block text-sm font-medium text-gray-700 mb-2"
+                                    class="block text-sm font-semibold text-gray-700 mb-2"
                                 >
                                     Projeto
                                 </label>
@@ -71,7 +83,7 @@ const handleFileUpload = (e) => {
 
                                 <div
                                     v-if="form.errors.project_id"
-                                    class="mt-2 text-sm text-red-600"
+                                    class="mt-2 text-sm font-medium text-red-600"
                                 >
                                     {{ form.errors.project_id }}
                                 </div>
@@ -80,7 +92,7 @@ const handleFileUpload = (e) => {
                             <!-- Título -->
                             <div class="mb-6">
                                 <label
-                                    class="block text-sm font-medium text-gray-700 mb-2"
+                                    class="block text-sm font-semibold text-gray-700 mb-2"
                                 >
                                     Título do Ticket
                                 </label>
@@ -101,7 +113,7 @@ const handleFileUpload = (e) => {
 
                             <div class="mb-6">
                                 <label
-                                    class="block text-sm font-medium text-gray-700 mb-2"
+                                    class="block text-sm font-semibold text-gray-700 mb-2"
                                 >
                                     Status
                                 </label>
@@ -128,7 +140,7 @@ const handleFileUpload = (e) => {
                             <!-- Descrição -->
                             <div class="mb-6">
                                 <label
-                                    class="block text-sm font-medium text-gray-700 mb-2"
+                                    class="block text-sm font-semibold text-gray-700 mb-2"
                                 >
                                     Descrição
                                 </label>
@@ -149,7 +161,7 @@ const handleFileUpload = (e) => {
 
                             <div class="mb-6">
                                 <label
-                                    class="block text-sm font-medium text-gray-700 mb-2"
+                                    class="block text-sm font-semibold text-gray-700 mb-2"
                                 >
                                     Anexo (opcional)
                                 </label>
@@ -157,7 +169,7 @@ const handleFileUpload = (e) => {
                                 <input
                                     type="file"
                                     @change="handleFileUpload"
-                                    class="w-full"
+                                    class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm"
                                 />
                             </div>
 

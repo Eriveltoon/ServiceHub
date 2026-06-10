@@ -33,20 +33,32 @@ const goBack = () => {
 
         <div class="py-12">
             <div class="mx-auto max-w-3xl sm:px-6 lg:px-8">
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <div
+                    class="overflow-hidden bg-white shadow-lg border border-gray-200 rounded-xl"
+                >
                     <div class="p-6">
+                        <div class="mb-8 border-b border-gray-200 pb-4">
+                            <h3 class="text-2xl font-bold text-gray-800">
+                                Cadastro de Projeto
+                            </h3>
+
+                            <p class="text-sm text-gray-500 mt-1">
+                                Preencha os dados abaixo para criar um novo
+                                projeto.
+                            </p>
+                        </div>
                         <form @submit.prevent="submit">
                             <!-- Empresa -->
                             <div class="mb-6">
                                 <label
-                                    class="block text-sm font-medium text-gray-700 mb-2"
+                                    class="block text-sm font-semibold text-gray-700 mb-2"
                                 >
                                     Empresa
                                 </label>
 
                                 <select
                                     v-model="form.company_id"
-                                    class="w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200"
+                                    class="w-full rounded-lg border-gray-300 shadow-sm"
                                 >
                                     <option value="">
                                         Selecione uma empresa
@@ -72,7 +84,7 @@ const goBack = () => {
                             <!-- Nome -->
                             <div class="mb-6">
                                 <label
-                                    class="block text-sm font-medium text-gray-700 mb-2"
+                                    class="block text-sm font-semibold text-gray-700 mb-2"
                                 >
                                     Nome do Projeto
                                 </label>
@@ -93,7 +105,7 @@ const goBack = () => {
 
                             <div class="mb-6">
                                 <label
-                                    class="block text-sm font-medium text-gray-700 mb-2"
+                                    class="block text-sm font-semibold text-gray-700 mb-2"
                                 >
                                     Descrição
                                 </label>

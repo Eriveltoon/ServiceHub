@@ -32,13 +32,24 @@ const goBack = () => {
 
         <div class="py-12">
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white shadow-sm sm:rounded-lg">
+                <div
+                    class="overflow-hidden bg-white shadow-lg border border-gray-200 rounded-xl"
+                >
                     <div class="p-6">
+                        <div class="mb-8 border-b border-gray-200 pb-4">
+                            <h3 class="text-2xl font-bold text-gray-800">
+                                Edição de Projeto
+                            </h3>
+
+                            <p class="text-sm text-gray-500 mt-1">
+                                Preencha os dados abaixo para editar o projeto.
+                            </p>
+                        </div>
                         <form @submit.prevent="submit">
                             <!-- Empresa -->
                             <div class="mb-6">
                                 <label
-                                    class="block text-sm font-medium text-gray-700 mb-2"
+                                    class="block text-sm font-semibold text-gray-700 mb-2"
                                 >
                                     Empresa
                                 </label>
@@ -64,7 +75,7 @@ const goBack = () => {
                             <!-- Nome -->
                             <div class="mb-6">
                                 <label
-                                    class="block text-sm font-medium text-gray-700 mb-2"
+                                    class="block text-sm font-semibold text-gray-700 mb-2"
                                 >
                                     Nome do Projeto
                                 </label>
@@ -72,14 +83,14 @@ const goBack = () => {
                                 <input
                                     v-model="form.name"
                                     type="text"
-                                    class="w-full border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 text-gray-900"
+                                    class="w-full rounded-md border-gray-300 shadow-sm focus:ring focus:ring-blue-200"
                                 />
                             </div>
 
                             <!-- Descrição -->
                             <div class="mb-6">
                                 <label
-                                    class="block text-sm font-medium text-gray-700 mb-2"
+                                    class="block text-sm font-semibold text-gray-700 mb-2"
                                 >
                                     Descrição
                                 </label>
