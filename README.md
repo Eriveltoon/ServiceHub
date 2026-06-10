@@ -71,8 +71,16 @@ docker compose exec app php artisan migrate
 
 ## 5. Acessar aplicação
 
-No navegador acesse a URL:
+No navegador acesse a URL:docker compose exec app cat storage/logs/laravel.log
 
 ```bash
 http://localhost:8000
+```
+
+## 6. Conferir o envio de e-mail após subir arquivo de texto
+
+No terminal bash, dentro da pasta do projeto, rodar o comando
+
+```bash
+docker compose exec app grep -n "To:" storage/logs/laravel.log -A 20
 ```
